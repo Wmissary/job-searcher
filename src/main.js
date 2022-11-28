@@ -1,13 +1,17 @@
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-import { kSetProvider } from "./provider/index.js";
-import { getJobsData, filterJobsData, saveJobsData } from "./jobs.js";
+import getJobsData from "./scrap-jobs/index.js";
+import { filterJobsData, saveJobsData } from "./jobs.js";
 
-import { readJSONFile, fileExist, __dirname } from "./utils.js";
+import { readJSONFile, fileExist } from "./utils.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const kPathJobsData = path.join(__dirname, "..", "jobs.json");
 
-const jobs = await getJobsData(kSetProvider, "developpeur", "angouleme");
+const jobs = await getJobsData("developpeur", "angouleme");
 const jobsDataExist = await fileExist(kPathJobsData);
 if (jobsDataExist) {
   const savedJobs = await readJSONFile(kPathJobsData);

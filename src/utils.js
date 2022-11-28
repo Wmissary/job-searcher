@@ -1,13 +1,4 @@
 import fs from "node:fs/promises";
-import { fileURLToPath } from "node:url";
-import path from "node:path";
-
-import { XMLParser } from "fast-xml-parser";
-
-function parseXMLtoJson(xml) {
-  const parser = new XMLParser();
-  return parser.parse(xml);
-}
 
 async function fileExist(path) {
   try {
@@ -36,14 +27,4 @@ async function writeJSONFile(data, path) {
   }
 }
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-export {
-  parseXMLtoJson,
-  writeJSONFile,
-  readJSONFile,
-  fileExist,
-  __dirname,
-  __filename,
-};
+export { fileExist, readJSONFile, writeJSONFile };

@@ -1,25 +1,4 @@
-import { parseXMLtoJson, writeJSONFile } from "./utils.js";
-
-async function getJobsData(providers, name, location) {
-  try {
-    const data = await Promise.all(
-      [...providers].map(async (provider) => {
-        const url = provider.url(name, location);
-        const response = await fetch(url);
-        if (response.ok) {
-          const stringData = await response.text();
-          const data = parseXMLtoJson(stringData);
-          return provider.transformResponse(data);
-        } else {
-          return [];
-        }
-      })
-    );
-    return data.flat();
-  } catch {
-    throw new Error("Error fetching data");
-  }
-}
+import { writeJSONFile } from "./utils.js";
 
 function filterJobsData(jobs, savedJobs) {
   const newJobs = removeAlreadySavedJobs(jobs, savedJobs);
@@ -50,4 +29,4 @@ async function saveJobsData(jobs, path) {
   }
 }
 
-export { getJobsData, filterJobsData, saveJobsData };
+export { filterJobsData, saveJobsData };
