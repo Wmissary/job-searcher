@@ -1,4 +1,6 @@
 import fs from "node:fs/promises";
+import { fileURLToPath } from "node:url";
+import path from "node:path";
 
 import { XMLParser } from "fast-xml-parser";
 
@@ -16,22 +18,32 @@ async function fileExist(path) {
   }
 }
 
-async function readJSONFile() {
+async function readJSONFile(path) {
   try {
-    const data = await fs.readFile("data.json");
+    const data = await fs.readFile(path);
     return JSON.parse(data);
   } catch (error) {
     throw new Error(error);
   }
 }
 
-async function writeJSONFile(data) {
-  const json = JSON.stringify(data, undefined, 2);
+async function writeJSONFile(data, path) {
   try {
-    await fs.writeFile("data.json", json);
+    const json = JSON.stringify(data, undefined, 2);
+    await fs.writeFile(path, json);
   } catch (error) {
     throw new Error("Error writing file", error);
   }
 }
 
-export { parseXMLtoJson, writeJSONFile, readJSONFile, fileExist };
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+export {
+  parseXMLtoJson,
+  writeJSONFile,
+  readJSONFile,
+  fileExist,
+  __dirname,
+  __filename,
+};

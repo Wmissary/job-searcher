@@ -1,11 +1,6 @@
-import {
-  fileExist,
-  parseXMLtoJson,
-  readJSONFile,
-  writeJSONFile,
-} from "./utils.js";
+import { parseXMLtoJson, writeJSONFile } from "./utils.js";
 
-export async function getJobsData(providers, name, location) {
+async function getJobsData(providers, name, location) {
   try {
     const data = await Promise.all(
       [...providers].map(async (provider) => {
@@ -14,7 +9,6 @@ export async function getJobsData(providers, name, location) {
         if (response.ok) {
           const stringData = await response.text();
           const data = parseXMLtoJson(stringData);
-          console.log(data);
           return provider.transformResponse(data);
         } else {
           return [];
@@ -27,33 +21,33 @@ export async function getJobsData(providers, name, location) {
   }
 }
 
-export async function checkJobsData(jobs) {
-  try {
-    if (await fileExist("data.json")) {
-      const data = await readJSONFile();
-      return jobs.filter((job) => {
-        const isJobAlreadySaved = data.some(
-          (savedJob) => savedJob.id === job.id
-        );
-        return !isJobAlreadySaved;
-      });
-    }
-    return jobs;
-  } catch (error) {
-    throw new Error(error);
-  }
+function filterJobsData(jobs, savedJobs) {
+  const newJobs = removeAlreadySavedJobs(jobs, savedJobs);
+  const oldJobs = removeExpiredJobs(jobs, savedJobs);
+  return [...newJobs, ...oldJobs];
 }
 
-export async function saveJobsData(jobs) {
+function removeAlreadySavedJobs(jobs, savedJobs) {
+  return jobs.filter((job) => {
+    const jobAlreadySaved = savedJobs.find(
+      (savedJob) => savedJob.id === job.id
+    );
+    return !jobAlreadySaved;
+  });
+}
+
+function removeExpiredJobs(jobs, savedJobs) {
+  return savedJobs.filter((savedJob) => {
+    return jobs.find((job) => job.id === savedJob.id);
+  });
+}
+
+async function saveJobsData(jobs, path) {
   try {
-    if (await fileExist("data.json")) {
-      const data = await readJSONFile();
-      const newData = [...data, ...jobs];
-      await writeJSONFile(newData);
-    } else {
-      await writeJSONFile(jobs);
-    }
+    await writeJSONFile(jobs, path);
   } catch (error) {
     throw new Error("Error saving data", error);
   }
 }
+
+export { getJobsData, filterJobsData, saveJobsData };
