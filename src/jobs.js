@@ -1,4 +1,5 @@
-import { writeJSONFile } from "./utils.js";
+import { writeJSONFile, readJSONFile, fileExist } from "./utils.js";
+import getJobsData from "./scrap-jobs/index.js";
 
 function filterJobsData(jobs, savedJobs) {
   const newJobs = removeAlreadySavedJobs(jobs, savedJobs);
@@ -29,4 +30,21 @@ async function saveJobsData(jobs, path) {
   }
 }
 
-export { filterJobsData, saveJobsData };
+async function updateJobsData(path) {
+  const jobs = await getJobsData("developpeur", "angouleme");
+  const jobsDataExist = await fileExist(path);
+  if (jobsDataExist) {
+    const savedJobs = await readJSONFile(path);
+    const difference = jobs.filter((job) => {
+      return !savedJobs.some((savedJob) => savedJob.id === job.id);
+    });
+    if (difference.length > 0) {
+      const filteredJobs = filterJobsData(jobs, savedJobs);
+      await saveJobsData(filteredJobs, path);
+    }
+  } else {
+    await saveJobsData(jobs, path);
+  }
+}
+
+export default updateJobsData;
