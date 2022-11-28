@@ -19,5 +19,8 @@
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-sonarjs": "^0.16.0",
     "eslint-plugin-unicorn": "^45.0.0"
+  },
+  "dependencies": {
+    "fast-xml-parser": "^4.0.12"
   }
 }
