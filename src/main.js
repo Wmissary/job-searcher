@@ -13,5 +13,4 @@ const kNumber5minutes = 5 * 60 * 1000;
 
 setInterval(async () => {
   await updateJobsData(kPathJobsData);
-  console.log("Jobs data updated");
 }, kNumber5minutes);

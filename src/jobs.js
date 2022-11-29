@@ -4,7 +4,9 @@ import getJobsData from "./scrap-jobs/index.js";
 function filterJobsData(jobs, savedJobs) {
   const newJobs = removeAlreadySavedJobs(jobs, savedJobs);
   const oldJobs = removeExpiredJobs(jobs, savedJobs);
-  return [...newJobs, ...oldJobs];
+  return [...newJobs, ...oldJobs].sort((a, b) => {
+    return a.id - b.id;
+  });
 }
 
 function removeAlreadySavedJobs(jobs, savedJobs) {
@@ -48,3 +50,4 @@ async function updateJobsData(path) {
 }
 
 export default updateJobsData;
+export { filterJobsData, removeAlreadySavedJobs, removeExpiredJobs };
