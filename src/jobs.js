@@ -4,9 +4,10 @@ import getJobsData from "./scrap-jobs/index.js";
 function filterJobsData(jobs, savedJobs) {
   const newJobs = removeAlreadySavedJobs(jobs, savedJobs);
   const oldJobs = removeExpiredJobs(jobs, savedJobs);
-  return [...newJobs, ...oldJobs].sort((a, b) => {
-    return a.id - b.id;
-  });
+  return {
+    newJobs,
+    savedJobs: oldJobs,
+  };
 }
 
 function removeAlreadySavedJobs(jobs, savedJobs) {
@@ -36,16 +37,16 @@ async function updateJobsData(path) {
   const jobs = await getJobsData("developpeur", "angouleme");
   const jobsDataExist = await fileExist(path);
   if (jobsDataExist) {
-    const savedJobs = await readJSONFile(path);
-    const difference = jobs.filter((job) => {
-      return !savedJobs.some((savedJob) => savedJob.id === job.id);
-    });
-    if (difference.length > 0) {
-      const filteredJobs = filterJobsData(jobs, savedJobs);
-      await saveJobsData(filteredJobs, path);
+    const data = await readJSONFile(path);
+    const { newJobs, savedJobs } = filterJobsData(jobs, data);
+    if (newJobs.length > 0) {
+      const newJobs = [...newJobs, ...savedJobs];
+      await saveJobsData(newJobs, path);
     }
+    return { newJobs, savedJobs };
   } else {
     await saveJobsData(jobs, path);
+    return { newJobs: jobs, savedJobs: [] };
   }
 }
 

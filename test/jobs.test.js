@@ -148,7 +148,10 @@ test("filterJobsData", async (t) => {
 
     const result = filterJobsData(jobs, savedJobs);
 
-    assert.deepStrictEqual(result, [kArraySavedJobs[0], kArrayJobs[1]]);
+    assert.deepStrictEqual(result, {
+      newJobs: [kArrayJobs[1]],
+      savedJobs: [kArraySavedJobs[0]],
+    });
   });
 
   await t.test("Should return an empty array", () => {
@@ -158,7 +161,10 @@ test("filterJobsData", async (t) => {
 
     const result = filterJobsData(jobs, savedJobs);
 
-    assert.deepStrictEqual(result, []);
+    assert.deepStrictEqual(result, {
+      newJobs: [],
+      savedJobs: [],
+    });
   });
 
   await t.test("Should return an array with empty saved jobs array", () => {
@@ -168,7 +174,10 @@ test("filterJobsData", async (t) => {
 
     const result = filterJobsData(jobs, savedJobs);
 
-    assert.deepStrictEqual(result, kArrayJobs);
+    assert.deepStrictEqual(result, {
+      newJobs: kArrayJobs,
+      savedJobs: [],
+    });
   });
 
   await t.test("Should return an empty array", () => {
@@ -178,6 +187,9 @@ test("filterJobsData", async (t) => {
 
     const result = filterJobsData(jobs, savedJobs);
 
-    assert.deepStrictEqual(result, []);
+    assert.deepStrictEqual(result, {
+      newJobs: [],
+      savedJobs: [],
+    });
   });
 });
