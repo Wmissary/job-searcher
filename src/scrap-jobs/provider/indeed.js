@@ -21,17 +21,17 @@ export const indeed = new Provider({
 });
 
 // Indeed Utils
-function getLocationFromIndeedTitle(title) {
+export function getLocationFromIndeedTitle(title) {
   const location = title.split(" - ");
   return location[location.length - 1];
 }
 
-function getCompanyFromIndeedTitle(title) {
+export function getCompanyFromIndeedTitle(title) {
   const company = title.split(" - ");
   return company[1];
 }
 
-function getTitleFromIndeedTitle(title) {
+export function getTitleFromIndeedTitle(title) {
   const jobTitle = title.split(" - ");
   return jobTitle[0];
 }
