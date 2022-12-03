@@ -1,5 +1,5 @@
 import { kSetProvider } from "./provider/index.js";
-import { parseXMLtoJson } from "./utils.js";
+import parseResponse from "./parse/index.js";
 
 export default async function getJobsData(name, location) {
   try {
@@ -8,8 +8,7 @@ export default async function getJobsData(name, location) {
         const url = provider.url(name, location);
         const response = await fetch(url);
         if (response.ok) {
-          const stringData = await response.text();
-          const data = parseXMLtoJson(stringData);
+          const data = await parseResponse(response);
           return provider.transformResponse(data);
         } else {
           return [];
