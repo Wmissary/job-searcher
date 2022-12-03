@@ -1,5 +1,5 @@
 import { kSetProvider } from "./provider/index.js";
-import parseResponse from "./parse/index.js";
+import parseResponse from "./parser/index.js";
 
 export default async function getJobsData(name, location) {
   try {
