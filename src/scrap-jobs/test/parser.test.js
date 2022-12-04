@@ -16,8 +16,6 @@ test("parseResponse function", async () => {
     text: () => "<xml>test</xml>",
   };
   const result = await parseResponse(response);
-  console.log(response);
-  console.log(result);
   assert.deepStrictEqual(result, {
     xml: "test",
   });
