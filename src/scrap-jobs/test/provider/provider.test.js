@@ -2,7 +2,7 @@
 import test from "node:test";
 import assert from "node:assert";
 
-import Provider from "../classes/provider.js";
+import Provider from "../../classes/provider.js";
 
 test("Provider class", () => {
   const provider = new Provider({

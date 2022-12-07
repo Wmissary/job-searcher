@@ -7,7 +7,7 @@ import {
   getCompanyFromIndeedTitle,
   getLocationFromIndeedTitle,
   indeed,
-} from "../provider/indeed.js";
+} from "../../provider/indeed.js";
 
 test("Indeed utils", () => {
   const title = "Développeur Web - Compagny - Angoulême (16)";

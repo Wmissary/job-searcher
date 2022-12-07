@@ -33,14 +33,14 @@ export const poleEmploi = new Provider({
   },
 });
 
-function getCompanyFromPoleEmploiSubtext(subtext) {
+export function getCompanyFromPoleEmploiSubtext(subtext) {
   const company = subtext.replace(/\r?\n|\r/g, "").split("-");
   if (company.length === 3) {
     return company[0].trim();
   }
 }
 
-function getLocationFromPoleEmploiSubtext(subtext) {
+export function getLocationFromPoleEmploiSubtext(subtext) {
   const location = subtext.replace(/\r?\n|\r/g, "").split("-");
   if (location.length === 3) {
     return `${location[2].trim()} (${location[1].trim()})`;
