@@ -22,8 +22,6 @@
   },
   "dependencies": {
     "dotenv": "^16.0.3",
-    "fast-xml-parser": "^4.0.12",
-    "node-html-parser": "^6.1.4",
     "nodemailer": "^6.8.0"
   }
 }

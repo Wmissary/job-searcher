@@ -1,5 +1,6 @@
 import { writeJSONFile, readJSONFile, fileExist } from "./utils.js";
-import getJobsData from "./scrap-jobs/index.js";
+// eslint-disable-next-line n/no-extraneous-import
+import getJobsData from "@jobsearcher/getjobs";
 
 function filterJobsData(jobs, savedJobs) {
   const newJobs = removeAlreadySavedJobs(jobs, savedJobs);
